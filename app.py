@@ -1,8 +1,13 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-tasks = []
+# tasks = []
+tasks = ["Task 1", "Task 2", "Task 3"]
+
+@app.route('/')
+def index():
+    return render_template('index.html', tasks=tasks)
 
 @app.route('/tasks', methods=['GET'])
 def get_tasks():
