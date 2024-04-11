@@ -1,20 +1,35 @@
+# deploy_private_docker_image.yml
+
 ---
-- hosts: deployment-project-python
+- name: Deploy Private Docker Image
+  hosts: target-servers
+  become: yes
   tasks:
-    - name: Pull the latest Docker image
+    - name: Authenticate with Docker Hub (or your private registry)
+      docker_login:
+        username: mrunalsh
+        password: your_docker_token
+        registry_url: https://registry.hub.docker.com  # Replace with your registry URL
+
+    - name: Pull the Docker image
       docker_image:
-        name: m_docker_image
+        name: python-app-todo:latest
         source: pull
 
-    - name: Stop existing container
+    - name: Stop existing containers based on the same image
       docker_container:
-        name: my_dockercontainer_name
+        name: my-container
+        image: python-app-todo
         state: stopped
-        force_kill: yes
-      ignore_errors: yes
+      ignore_errors: yes  # Ignore errors if no existing container is found
 
-    - name: Start new container
+    - name: Start a new container
       docker_container:
-        name: my_new_dockercontainer_name
-        image: my_docker_image
+        name: my-container
+        image: python-app-todo:latest
+        ports:
+          - "8080:80"  # Example port mapping
         state: started
+
+# Add other necessary tasks (e.g., setting environment variables, volumes, etc.)
+
