@@ -30,11 +30,12 @@ pipeline {
     }
     stage('Deploy Image') {
       steps {
-          script {
-            docker.withRegistry('', registryCredential) {
-            dockerImage.push("$BUILD_NUMBER")
-            dockerImage.push('latest')
-            }
+          sh 'docker push python-app-todo' 
+          // script {
+          //   docker.withRegistry('', registryCredential) {
+          //   dockerImage.push("$BUILD_NUMBER")
+          //   dockerImage.push('latest')
+          //   }
           }
       }
     }
