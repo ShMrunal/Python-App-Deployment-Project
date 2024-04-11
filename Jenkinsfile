@@ -1,7 +1,8 @@
 pipeline {
     agent any
     environment {
-      registryCredential = 'mrunalsh'
+      imagename = 'mrunalsh/python-app-todo'
+      registryCredential = 'dockerhub_id'
     }
   stages {
     stage('Checkout') {
@@ -14,7 +15,7 @@ pipeline {
       steps {
         // calling bild function from docker
         script {
-          app = docker.build('python-app-todo')
+          app = docker.build imagename
         }
       }
     }
@@ -30,12 +31,12 @@ pipeline {
     }
     stage('Deploy Image') {
       steps {
-          sh 'docker push python-app-todo' 
-          // script {
-          //   docker.withRegistry('', registryCredential) {
-          //   dockerImage.push("$BUILD_NUMBER")
-          //   dockerImage.push('latest')
-          //   }
+          // sh 'docker push python-app-todo' 
+           script {
+           docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+            dockerImage.push("$BUILD_NUMBER")
+            dockerImage.push('latest')
+            }
           }
       }
     }
