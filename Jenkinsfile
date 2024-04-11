@@ -24,7 +24,7 @@ pipeline {
       steps {
         // access app
         script {
-          app.inside {
+          dockerImage.inside {
             sh 'echo test pass'
           }
         }
