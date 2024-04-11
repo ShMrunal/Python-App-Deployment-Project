@@ -2,7 +2,7 @@
 
 ---
 - name: Deploy Private Docker Image
-  hosts: target-servers
+  hosts: target_servers
   become: yes
   tasks:
     - name: Authenticate with Docker Hub (or your private registry)
