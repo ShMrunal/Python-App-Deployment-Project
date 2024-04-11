@@ -1,6 +1,7 @@
 pipeline {
     agent any
     environment {
+      dockerImage = ''
       imagename = 'mrunalsh/python-app-todo'
       registryCredential = 'dockerhub_id'
     }
@@ -15,7 +16,7 @@ pipeline {
       steps {
         // calling bild function from docker
         script {
-          app = docker.build imagename
+          dockerImage = docker.build imagename
         }
       }
     }
