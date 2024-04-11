@@ -31,14 +31,14 @@ pipeline {
     }
     stage('Deploy Image') {
       steps {
-          // sh 'docker push python-app-todo' 
-           script {
-           docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+        // sh 'docker push python-app-todo'
+        script {
+          docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
             dockerImage.push("$BUILD_NUMBER")
             dockerImage.push('latest')
-            }
           }
+        }
       }
     }
   }
-
+}
