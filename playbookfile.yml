@@ -1,17 +1,20 @@
 ---
-- name: Deploy Docker Container
-  hosts: target_servers
+- hosts: deployment-project-python
   tasks:
     - name: Pull the latest Docker image
       docker_image:
-        name: myapp:latest
+        name: m_docker_image
         source: pull
-    - name: Stop existing container (if any)
+
+    - name: Stop existing container
       docker_container:
-        name: myapp_container
+        name: my_dockercontainer_name
         state: stopped
+        force_kill: yes
+      ignore_errors: yes
+
     - name: Start new container
       docker_container:
-        name: myapp_container
-        image: myapp:latest
+        name: my_new_dockercontainer_name
+        image: my_docker_image
         state: started
